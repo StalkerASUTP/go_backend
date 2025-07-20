@@ -1,0 +1,4 @@
+Total sum of numbers is: 46367
+The response is getted. Host: example.com, status code: 200
+Total sum of numbers is: 232
+The response is getted. Host: example.com, status code: 200
