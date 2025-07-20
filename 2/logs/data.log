@@ -1,0 +1,17 @@
+time=2025-07-19T17:09:42.811+03:00 level=INFO msg="config loaded"
+time=2025-07-19T17:10:03.377+03:00 level=INFO msg="config loaded"
+time=2025-07-20T20:56:26.550+03:00 level=INFO msg="config loaded"
+time=2025-07-20T20:56:26.551+03:00 level=INFO msg="logger inisialised"
+time=2025-07-20T20:56:26.551+03:00 level=INFO msg="Numbers have been read from JSON file"
+time=2025-07-20T20:56:26.551+03:00 level=INFO msg="Total sum of numbers is" sum=46367
+time=2025-07-20T20:56:27.494+03:00 level=INFO msg="The response is getted" host=example.com "status code"=200
+time=2025-07-20T21:00:04.886+03:00 level=INFO msg="config loaded"
+time=2025-07-20T21:00:04.886+03:00 level=INFO msg="logger inisialised"
+time=2025-07-20T21:00:04.886+03:00 level=INFO msg="Numbers have been read from JSON file"
+time=2025-07-20T21:00:04.886+03:00 level=INFO msg="Total sum of numbers is" sum=46367
+time=2025-07-20T21:00:05.843+03:00 level=INFO msg="The response is getted" host=example.com "status code"=200
+time=2025-07-20T21:00:16.723+03:00 level=INFO msg="config loaded"
+time=2025-07-20T21:00:16.723+03:00 level=INFO msg="logger inisialised"
+time=2025-07-20T21:00:16.724+03:00 level=INFO msg="Numbers have been read from JSON file"
+time=2025-07-20T21:00:16.724+03:00 level=INFO msg="Total sum of numbers is" sum=46367
+time=2025-07-20T21:00:16.724+03:00 level=ERROR msg="failed to get response" url=""
