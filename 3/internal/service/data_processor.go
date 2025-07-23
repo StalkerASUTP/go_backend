@@ -3,6 +3,7 @@ package service
 import (
 	"fmt"
 	"go-backend/internal/interfaces"
+	"net/http"
 )
 
 type DataProcessor struct {
@@ -30,9 +31,9 @@ func NewDataProcessor(
 }
 
 func (p *DataProcessor) ProcessData() error {
+
 	numbers, err := p.reader.ReadData()
 	if err != nil {
-		p.logger.Error("failed to read data", "error", err)
 		return fmt.Errorf("failed to read data: %w", err)
 	}
 	p.logger.Info("data successfully read", "count", len(numbers))
@@ -40,36 +41,42 @@ func (p *DataProcessor) ProcessData() error {
 	p.logger.Info("sum calculated", "sum", sum)
 	result := fmt.Sprintf("Total sum of numbers is: %d\n", sum)
 	if err := p.writer.WriteData(result); err != nil {
-		p.logger.Error("failed to write sum result", "error", err)
 		return fmt.Errorf("failed to write sum result: %w", err)
 	}
-
 	fmt.Print(result)
 	return nil
 }
 
 func (p *DataProcessor) ProcessHTTPRequest(url string) error {
 	if url == "" {
-		err := fmt.Errorf("URL is empty")
-		p.logger.Error("failed to make HTTP request", "error", err)
-		return err
+		return fmt.Errorf("URL is empty")
 	}
-
 	resp, err := p.httpClient.Get(url)
 	if err != nil {
-		p.logger.Error("failed to make HTTP request", "url", url, "error", err)
 		return fmt.Errorf("failed to make HTTP request: %w", err)
 	}
 	defer resp.Body.Close()
 
-	p.logger.Info("HTTP request completed", "host", resp.Request.Host, "status_code", resp.StatusCode)
+	host := resp.Request.Host
+	statusCode := resp.StatusCode
+	statusText := http.StatusText(statusCode)
+	var result string
+	if statusCode == http.StatusOK {
+		result = fmt.Sprintf("✅ SUCCESS: Host: %s, Status: %d OK\n",
+		host, statusCode)
+		p.logger.Info("HTTP request completed", "host", host,
+		"status_code", statusCode)
+		
 
-	result := fmt.Sprintf("The response is getted. Host: %s, status code: %d\n", resp.Request.Host, resp.StatusCode)
+	} else {
+		result = fmt.Sprintf("❌ FAILED: Host: %s, Status: %d %s\n",
+		host, statusCode, http.StatusText(statusCode))
+		p.logger.Error("HTTP request failed", "host", host,
+		"status_code", statusCode, "status_text", statusText, "url", url)
+	}
 	if err := p.writer.WriteData(result); err != nil {
-		p.logger.Error("failed to write HTTP result", "error", err)
 		return fmt.Errorf("failed to write HTTP result: %w", err)
 	}
-
 	fmt.Print(result)
 	return nil
 }

@@ -22,7 +22,7 @@ func LoadConfig() *Config {
 	_ = godotenv.Load(".env")
 	url := os.Getenv("URL")
 	if url == "" {
-		url = defaultUrl
+		// url = defaultUrl
 	}
 	json := os.Getenv("JSON")
 	if json == "" {

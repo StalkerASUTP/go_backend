@@ -13,13 +13,10 @@ func main() {
 	// Парсим флаги
 	mode := flag.String("mode", "json", "mode of reading numbers (json or stdin)")
 	flag.Parse()
-
 	// Загружаем конфигурацию
 	cfg := config.LoadConfig()
-
 	// Создаем фабрику
 	f := factory.NewFactory()
-
 	// Создаем компоненты через фабрику
 	logger, err := f.CreateLogger(cfg.Logs)
 	if err != nil {

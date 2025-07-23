@@ -3,6 +3,7 @@ package service
 import (
 	"fmt"
 	"go-backend/internal/interfaces"
+	"net/http"
 )
 
 type DataProcessor struct {
@@ -29,7 +30,6 @@ func NewDataProcessor(
 func (p *DataProcessor) ProcessData() error {
 	numbers, err := p.reader.ReadData()
 	if err != nil {
-		p.logger.Error("failed to read data", "error", err)
 		return fmt.Errorf("failed to read data: %w", err)
 	}
 	p.logger.Info("data successfully read", "count", len(numbers))
@@ -42,18 +42,29 @@ func (p *DataProcessor) ProcessData() error {
 
 func (p *DataProcessor) ProcessHTTPRequest(url string) error {
 	if url == "" {
-		err := fmt.Errorf("URL is empty")
-		p.logger.Error("failed to make HTTP request", "error", err)
-		return err
+		return fmt.Errorf("URL is empty")
 	}
 	resp, err := p.httpClient.Get(url)
 	if err != nil {
-		p.logger.Error("failed to make HTTP request", "url", url, "error", err)
-		return fmt.Errorf("failed to make HTTP request: %w", err)
+		return fmt.Errorf("failed to make HTTP request to %s: %w", url, err)
 	}
 	defer resp.Body.Close()
-	p.logger.Info("HTTP request completed", "host", resp.Request.Host, "status_code", resp.StatusCode)
-	result := fmt.Sprintf("The response is getted. Host: %s, status code: %d\n", resp.Request.Host, resp.StatusCode)
-	fmt.Print(result)
-	return nil
+	host := resp.Request.Host
+	statusCode := resp.StatusCode
+	statusText := http.StatusText(statusCode)
+	if statusCode == http.StatusOK {
+		p.logger.Info("HTTP request completed successfully",
+			"host", host,
+			"status_code", statusCode,
+			"url", url)
+
+		fmt.Printf("✅ SUCCESS: Host: %s, Status: %d OK\n", host, statusCode)
+		return nil
+	}
+
+	fmt.Printf("❌ FAILED: Host: %s, Status: %d %s\n", host, statusCode, statusText)
+
+	return fmt.Errorf("HTTP request failed: status %d (%s) for URL: %s",
+		statusCode, statusText, url)
+
 }
