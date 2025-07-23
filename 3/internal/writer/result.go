@@ -6,7 +6,7 @@ import (
 )
 
 type Writer struct {
-	result *os.File
+	file *os.File
 }
 
 func NewWriter(fileName string) (*Writer, error) {
@@ -16,13 +16,13 @@ func NewWriter(fileName string) (*Writer, error) {
 		return nil, fmt.Errorf("%s: %s", op, err)
 	}
 	return &Writer{
-		result: resFile,
+		file: resFile,
 	}, nil
 }
 
 func (r *Writer) NewRecord(record string) error {
-	_, err := r.result.WriteString(record)
 	const op = "op.writer.NewRecord"
+	_, err := r.file.WriteString(record)
 	if err != nil {
 		return fmt.Errorf("%s: %s", op, err)
 	}
@@ -30,5 +30,5 @@ func (r *Writer) NewRecord(record string) error {
 }
 
 func (r *Writer) CloseFile() {
-	r.result.Close()
+	r.file.Close()
 }

@@ -33,6 +33,8 @@ func (j *JsonReader) ReadFile() ([]int64, error) {
 	return mySlice, nil
 }
 
+// более простой варинт для работы с небольшими json файлами
+
 // func (j *JsonReader) ReadFile() ([]int64, error) {
 // 	const op = "op.reader.ReadFile"
 // 	var mySlice []int64
@@ -46,3 +48,5 @@ func (j *JsonReader) ReadFile() ([]int64, error) {
 // 	}
 // 	return mySlice, nil
 // }
+
+

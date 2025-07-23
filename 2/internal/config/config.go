@@ -19,17 +19,23 @@ type Config struct {
 }
 
 func LoadConfig() *Config {
-	if err := godotenv.Load(".env"); err != nil {
-		return &Config{
-			URL:  defaultUrl,
-			Json: defaultJson,
-			Logs: defaultLogs,
-		}
+	_ = godotenv.Load(".env")
+	url := os.Getenv("URL")
+	if url == "" {
+		url = defaultUrl
+	}
+	json := os.Getenv("JSON")
+	if json == "" {
+		json = defaultJson
+	}
+	logs := os.Getenv("LOGS")
+	if logs == "" {
+		logs = defaultLogs
 	}
 	return &Config{
-		URL:  os.Getenv("URL"),
-		Json: os.Getenv("JSON"),
-		Logs: os.Getenv("LOGS"),
+		URL:  url,
+		Json: json,
+		Logs: logs,
 	}
 
 }

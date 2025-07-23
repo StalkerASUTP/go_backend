@@ -18,13 +18,13 @@ func sum(slice []int64) int64 {
 }
 func main() {
 	cfg := config.LoadConfig()
-	logger, logFile, err := logger.NewLogger(cfg.Logs).InisialiseLog()
+	logger, err := logger.NewLogger(cfg.Logs)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "failed to inisialise logger: %s\n", err)
 		return
 	}
 
-	defer logFile.Close()
+	defer logger.CloseFile()
 	logger.Info("config loaded")
 	logger.Info("logger inisialised")
 	slice, err := reader.NewReader(cfg.Json).ReadFile()

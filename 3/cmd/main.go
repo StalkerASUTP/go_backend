@@ -25,13 +25,13 @@ func main() {
 	cfg := config.LoadConfig()
 	mode := flag.String("mode", "json", "mode of reading numbers")
 	flag.Parse()
-	logger, logFile, err := logger.NewLogger(cfg.Logs).InisialiseLog()
+	logger, err := logger.NewLogger(cfg.Logs)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "failed to inisialise logger: %s\n", err)
 		return
 	}
 
-	defer logFile.Close()
+	defer logger.CloseFile()
 	logger.Info("logger inisialised")
 	logger.Info("mode of reading numbers", "mode", *mode)
 	logger.Info("config loaded")
