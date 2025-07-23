@@ -17,7 +17,7 @@ func NewFileReader(fileName string) *FileReader {
 }
 
 func (j *FileReader) ReadData() ([]int64, error) {
-	const op = "op.reader.ReadData"
+	const op = "op.FileReader.ReadData"
 	file, err := os.Open(j.filename)
 	if err != nil {
 		return nil, fmt.Errorf("%s: %s", op, err)

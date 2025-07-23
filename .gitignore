@@ -1,2 +1,7 @@
 .env
-/.vscode
+*.o
+*.out
+*.exe
+.vscode/
+main
+myapp
